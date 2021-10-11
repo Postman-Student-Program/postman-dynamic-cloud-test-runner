@@ -7,14 +7,14 @@ export const postCheck = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { submissionUrl } = req.body
+  const { submissionUrl, testUrl } = req.body
 
-  // check that submission json exists, return send 404 or 500 if something goes wrong
+  // check that submission and test json exists, return send 404 or 500 if something goes wrong
   try {
     await fetchCollection(submissionUrl)
-  } catch (err) {
+  } catch (err: any) {
     if (err.response && err.response.status === 404) {
-      const error = new Error('Collection not found') as any
+      const error = new Error('Submission collection not found') as any
       error.status = 404
       return next(error)
     } else {
@@ -22,9 +22,23 @@ export const postCheck = async (
     }
   }
 
+  try {
+    await fetchCollection(testUrl)
+  } catch (err: any) {
+    if (err.response && err.response.status === 404) {
+      const error = new Error('Test collection not found') as any
+      error.status = 404
+      return next(error)
+    } else {
+      return next(
+        new Error('Something went wrong when fetching test collection')
+      )
+    }
+  }
+
   // test submission
   const testResults = await testCollection({
-    testCollectionUrl: process.env.TEST_COLLECTION_URL as string,
+    testCollectionUrl: testUrl,
     submissionCollectionUrl: submissionUrl
   })
 

@@ -29,8 +29,13 @@ paths:
                   type: string
                   minLength: 15
                   pattern: '^https:\/\/www.getpostman.com\/collections\/'
+                testUrl:
+                  type: string
+                  minLength: 15
+                  pattern: '^https:\/\/www.getpostman.com\/collections\/'
               required:
                 - submissionUrl
+                - testUrl
       responses:
         '200':
           description: 'Submission processed successfully'

@@ -2,9 +2,9 @@
 
 No more cheating on tests! An API template for running server-side tests on variable collections.
 
-This is useful for instances where you need to test multiple collections against the same test script, and you don't want the client to alter client-side tests and "cheat" their way into passing.
+This server accepts a `testUrl` in the request body to run against a `submissionUrl`, and returns the pass/fail results. Both URLs should point to JSON representations of Postman collections.
 
-The template is set up to accomodate one endpoint by default, but you can easily add additional endpoints if you want to manage multiple different tests from the same server.
+This is useful for instances where you need to test multiple collections against the same test script, and you don't want the client to alter client-side tests and "cheat" their way into passing.
 
 Built with Claire's [no-bs-ts-starter](https://github.com/clairefro/my-no-bs-ts-express-starter)
 
@@ -12,7 +12,7 @@ Built with Claire's [no-bs-ts-starter](https://github.com/clairefro/my-no-bs-ts-
 
 #### Create a test collection in Postman
 
-This collection should use GET `{{submissionUrl}}` (by default - or you can change this variable name in `config.ts`) as the request URL. `{{submissionUrl}}` is dynamically populated as a Posmtan environment variable by the API when running the tests in `newman`. The request in the Postman collection should run some tests against the JSON response from `{{submissionUrl}}`.
+This collection should use GET `{{submissionUrl}}` as the request URL (this var name can be changedin `config.ts`). `{{submissionUrl}}` is dynamically populated as a Posmtan environment variable by the API when running the tests in `newman`. The request in the Postman collection should run some tests against the JSON response from `{{submissionUrl}}`.
 
 Here is an example test, used for student expert submission checking: [example](https://postman.postman.co/workspace/Training-Processing~f20c42fd-3898-4fe3-977a-eb953781cff1/request/15567703-36eb6066-6aa4-4994-b9bf-0829bd88c80b)
 
@@ -30,7 +30,7 @@ Specify which Postman collection will be used to run the tests by pasting the JS
 
 Set up necessary env vars (`TEST_COLLECTION_URL`).
 
-In order to start the server run: 
+In order to start the server run:
 
 `yarn build && yarn serve`
 
@@ -64,7 +64,7 @@ If any tests fail, a response like below will be returned
 
 ### Allowing multiple or dynamic test collection URLs
 
-The template as-is hard codes one test collection as an environemnt variable on the server. 
+The template as-is hard codes one test collection as an environemnt variable on the server.
 
 There are a few options for extending on this to allow multiple test collections:
 
@@ -84,7 +84,7 @@ This solution is ideal if you a) are making server-side API calls (test collecti
 
 #### Node version
 
-This project uses `node` v `16.0.0`. Use a node version manager such as [`n`](https://www.npmjs.com/package/n) to develop with this version.
+This project uses `node` v `^16.0.0`. Use a node version manager such as [`n`](https://www.npmjs.com/package/n) to develop with this version or higher.
 
 #### Install
 
